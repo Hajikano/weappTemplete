@@ -4,17 +4,25 @@
 function DC_Page(config = {}) {
     // 为实例创建data属性,存放页面的数据
     this.data = {};
-    // 指向小程序页面实例
-    this._pageInstance = null;
-
-    let that = this;
-    this.onLoad = function () {
-        that._pageInstance = this; // this指向执行onLoad的环境
-        if (config.onLoad) {
-            config.onLoad.bind(this)();
+    if (config.onLoad === undefined) {
+        config.onLoad = () => {};
+    }
+    for (let i in config) {
+        // 指向小程序页面实例
+        if (i === "onLoad") {
+            let that = this;
+            this.onLoad = function () {
+                that._pageInstance = this; // this指向执行onLoad的环境
+                if (config.onLoad) {
+                    config.onLoad.bind(this)();
+                }
+            };
+        }
+        else{
+            this[i] = config[i];
         }
     }
-};
+}
 
 DC_Page.prototype.use = use;
 
@@ -29,10 +37,12 @@ function use(compontent) {
     this.data[compontent._name].style = styleObj;
     //绑定方法
     for (let i in compontent._methods) {
-        this[compontent._name + '_' + i] = compontent._methods[i].bind(compontent);
+        this[compontent._name + "_" + i] = compontent._methods[i].bind(
+            compontent
+        );
     }
 }
 
 module.exports = {
-    DC_Page: DC_Page
-}
+    DC_Page: DC_Page,
+};

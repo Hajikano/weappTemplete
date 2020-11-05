@@ -1,11 +1,12 @@
 {
-    "pages": [
-        "pages/index/index"
-    ],
-    "window": {
-        "navigationBarTextStyle": "black",
-        "navigationStyle": "custom"
-    },
-    "sitemapLocation": "sitemap.json",
-    "usingComponents": {}
+  "pages": [
+    "pages/index/index",
+    "pages/test/index"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationStyle": "custom"
+  },
+  "sitemapLocation": "sitemap.json",
+  "usingComponents": {}
 }
