@@ -4,44 +4,87 @@
 function DC_Page(config = {}) {
     // 为实例创建data属性,存放页面的数据
     this.data = {};
-    if (config.onLoad === undefined) {
-        config.onLoad = () => {};
+    // 确定实例是否为组件页面类型
+    if (config._isCompontent === undefined) {
+        // 实例默认为非组件模式
+        config._isCompontent === false;
+    } else {
+        config._isCompontent === Boolean(config._isCompontent);
     }
-    for (let i in config) {
-        // 指向小程序页面实例
-        if (i === "onLoad") {
-            let that = this;
-            this.onLoad = function () {
-                that._pageInstance = this; // this指向执行onLoad的环境
-                if (config.onLoad) {
-                    config.onLoad.bind(this)();
-                }
-            };
+    // 为实例绑定小程序的页面实例
+    if (config._isCompontent === true) {
+        // 组件模式
+        this.properties = config.properties !== undefined ? config.properties : {};
+        this.methods = config.methods !== undefined ? config.methods : {};
+        if (config.created === undefined) {
+            config.created = () => {};
         }
-        else{
+        let that = this;
+        this.created = function () {
+            that._pageInstance = this; // this指向执行onLoad的环境
+            config.created.bind(this)();
+        };
+    } else {
+        // 非组件模式
+        if (config.onLoad === undefined) {
+            config.onLoad = () => {};
+        }
+        let that = this;
+        this.onLoad = function (options) {
+            that._pageInstance = this; // this指向执行onLoad的环境
+            config.onLoad.bind(this)(options);
+        };
+    }
+    // 绑定剩余属性
+    for (let i in config) {
+        if (i[0] !== "_" && i !== 'created' && i !== 'onLoad') {
             this[i] = config[i];
         }
     }
+    this._isCompontent = config._isCompontent;
 }
-
-DC_Page.prototype.use = use;
 
 // 将组件实例绑定到DC页面实例
 function use(compontent) {
     compontent._dcPageInstance = this;
-    this.data[compontent._name] = compontent._data;
-    let styleObj = {};
-    for (let i in compontent._style) {
-        styleObj[i] = compontent.setStyle(compontent._style[i]);
+    if (compontent._name === undefined) {
+        // 检查组件是否存在'_name'属性
+        throw "Compontent must have a propertie named '_name'!";
     }
-    this.data[compontent._name].style = styleObj;
-    //绑定方法
-    for (let i in compontent._methods) {
-        this[compontent._name + "_" + i] = compontent._methods[i].bind(
-            compontent
-        );
+    this.data[compontent._name] = compontent._data;
+    for (let i of Object.getOwnPropertyNames(compontent)) {
+        // 将组件注册到页面
+        switch (i) {
+            case "_style":
+                // 绑定style
+                let styleObj = {};
+                for (let j in compontent._style) {
+                    styleObj[j] = compontent.setStyle(compontent._style[j]);
+                }
+                this.data[compontent._name].style = styleObj;
+                break;
+            default:
+                // 绑定方法
+                if (i[0] !== "_") {
+                    // 为组件模式兼容处理
+                    if (this._isCompontent) {
+                        this.methods[compontent._name + "_" + i] = compontent[
+                            i
+                        ].bind(compontent);
+                    } else {
+                        this[compontent._name + "_" + i] = compontent[i].bind(
+                            compontent
+                        );
+                    }
+                }
+        }
     }
 }
+DC_Page.prototype.use = use;
+
+function output(){
+}
+DC_Page.prototype.output = output;
 
 module.exports = {
     DC_Page: DC_Page,

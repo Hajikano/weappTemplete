@@ -1,3 +1,6 @@
-<view style="{{DC_Layout.style._}}">
-    <view bindtap="DC_Layout_click">{{DC_Layout.title}}</view>
-</view>
+<Layout>
+    <NavBar>
+        <text bindtap="DC_Layout_onIconClick" class="material-icons">navigate_before</text>
+        {{DC_Layout.title}}s
+    </NavBar>
+</Layout>

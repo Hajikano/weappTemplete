@@ -1,0 +1,5 @@
+<view wx:if="{{isNavBar}}" style="{{DC_Layout.style.space}}"></view>
+<slot name="Navbar" />
+<view style="{{DC_Layout.style._}}background-color:{{bgColor}};">
+    <slot />
+</view>

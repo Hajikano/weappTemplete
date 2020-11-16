@@ -8,5 +8,9 @@
     "navigationStyle": "custom"
   },
   "sitemapLocation": "sitemap.json",
-  "usingComponents": {}
+  "usingComponents": {
+    "Layout": "/compontents/layout/index",
+    "NavBar": "/compontents/navBar/index",
+    "Card": "/compontents/card/index"
+  }
 }

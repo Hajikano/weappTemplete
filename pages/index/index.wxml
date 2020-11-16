@@ -1,3 +1,7 @@
-<view style="{{DC_Layout.style._}}">
-    <view bindtap="DC_Layout_click">{{DC_Layout.title}}</view>
-</view>
+<Layout>
+    <NavBar>
+        <text bindtap="DC_Layout_onTitleClick" class="material-icons">person</text>
+        {{DC_Layout.title}}
+    </NavBar>
+    <view style="height:10px;"></view>
+</Layout>

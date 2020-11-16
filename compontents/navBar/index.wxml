@@ -1,0 +1,6 @@
+<view style="{{NavBar.style._}}background-color:{{bgColor}};">
+    <view style="{{NavBar.style.topSpace}}"></view>
+    <view style="{{NavBar_Container.style._}}">
+        <slot></slot>
+    </view>
+</view>

@@ -54,7 +54,7 @@ function DC_NavigateTo() {
             url: url,
         });
     };
-    this.pop = (index) => {
+    this.pop = (index = 1) => {
         wx.navigateBack({
             delta: index,
         });
@@ -74,8 +74,21 @@ function DC_NavigateTo() {
     };
 }
 
+function DC_Loading() {
+    this.show = (title = "加载中") => {
+        wx.showLoading({
+            title: title,
+            mask: true,
+        });
+    };
+    this.clear = () => {
+        wx.hideLoading();
+    };
+}
+
 module.exports = {
     DC_IsAuthorize,
     DC_SystemInfo,
-    DC_NavigateTo
+    DC_NavigateTo,
+    DC_Loading,
 };

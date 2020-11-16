@@ -12,17 +12,35 @@ const ColorSet = {
     $placeholder: "#C0C4CC",
     $border: "#DCDFE6",
     $subBorder: "#E4E7ED",
+    $white: "#FFFFFF",
+};
+
+const SizeMap = {
+    $LargeTitle: "34px",
+    $Title1: "28px",
+    $Title2: "22px",
+    $Title3: "20px",
+    $Headline: "17px",
+    $Body: "17px",
+    $Callout: "16px",
+    $Subhead: "15px",
+    $Fontnote: "13px",
+    $Caption1: "12px",
+    $Caption2: "11px",
 };
 
 function DC_Compontent(config = {}) {
     // 挂载的DC_Page实例
     this._dcPageInstance = null;
     this._name = config._name;
-    this._style = config.style ? config.style : { _: {} };
-    this._style._ = this._style._ ? this._style._ : {};
-
-    this._data = config.data ? config.data : {};
-    this._methods = config.methods ? config.methods : {};
+    this._style = config.style !== undefined ? config.style : { _: {} };
+    this._style._ = this._style._ !== undefined ? this._style._ : {};
+    this._data = config.data !== undefined ? config.data : {};
+    if (config.methods !== undefined) {
+        for (let i in config.methods) {
+            this[i] = config.methods[i];
+        }
+    }
 }
 
 //功能性方法
@@ -141,7 +159,7 @@ function radius(radius) {
 }
 DC_Compontent.prototype.radius = radius;
 
-function backgroundColor(color = "white") {
+function backgroundColor(color = "$white") {
     let colorSet = ColorSet;
     this._style["_"]["background-color"] = colorSet[color]
         ? colorSet[color]
@@ -162,21 +180,8 @@ function frame(width = null, height = null) {
 DC_Compontent.prototype.frame = frame;
 
 function fontSize(type = "$Body") {
-    let sizeMap = {
-        $LargeTitle: "34px",
-        $Title1: "28px",
-        $Title2: "22px",
-        $Title3: "20px",
-        $Headline: "17px",
-        $Body: "17px",
-        $Callout: "16px",
-        $Subhead: "15px",
-        $Fontnote: "13px",
-        $Caption1: "12px",
-        $Caption2: "11px",
-    };
-    if (sizeMap[type]) {
-        this._style["_"]["font-size"] = sizeMap[type];
+    if (SizeMap[type]) {
+        this._style["_"]["font-size"] = SizeMap[type];
     }
     return this;
 }
@@ -227,4 +232,4 @@ function blur(radius = 5) {
 }
 DC_Compontent.prototype.blur = blur;
 
-module.exports = { DC_Compontent };
+module.exports = { DC_Compontent, SizeMap, ColorSet };
