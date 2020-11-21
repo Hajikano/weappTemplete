@@ -15,22 +15,30 @@ const PageObj = new app.DC_Utils.DC_Page({
             type: String,
             value: "#f7f7f7",
         },
+        hidden: {
+            type: Boolean,
+            value: false,
+        },
     },
     methods: {},
 });
 
 const DC_Layout = new DC_Compontent({
     _name: "DC_Layout",
+    data: {
+        navBar: app.iDC_SystemInfo.system.height - app.publicData.navBarHeight,
+        un_navBar: app.iDC_SystemInfo.system.height,
+    },
     style: {
+        _: {
+            width: "100%",
+        },
         space: {
-            height: `${app.publicData.navBarHeight}px`,
+            height: `${app.publicData.navBarHeight}px`
         },
     },
     methods: {},
-}).frame(
-    "100%",
-    `${app.iDC_SystemInfo.system.height - app.publicData.navBarHeight}px`
-);
+});
 PageObj.use(DC_Layout);
 
 Component(PageObj);

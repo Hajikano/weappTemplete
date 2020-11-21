@@ -1,6 +1,12 @@
 <Layout>
     <NavBar>
-        <text bindtap="DC_Layout_onIconClick" class="material-icons">navigate_before</text>
-        {{DC_Layout.title}}s
+        <view style="width:10px;"></view>
+        <text bindtap="DC_Layout_onBack" class="material-icons">navigate_before</text>
+        <view style="width:10px;"></view>
+        {{DC_Layout.title}}{{DC_Layout.test}}
     </NavBar>
+    <view style="height:20px;"></view>
+    <button bindtap="DC_Layout_onButtonClick" style="{{DC_Layout.style.button}}">Test Page</button>
+    <view style="height:10px;"></view>
+    <button bindtap="DC_Layout_onButtonClick2" style="{{DC_Layout.style.button}}">Test</button>
 </Layout>

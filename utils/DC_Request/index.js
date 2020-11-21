@@ -24,7 +24,7 @@ function getOptionsTrans(options) {
         url: "",
         data: {},
         isIntercept_request: true, //是否拦截请求
-        isIntercept_response: false, //是否拦截响应
+        isIntercept_response: true, //是否拦截响应
         header: {},
         success: () => {},
         fail: () => {},

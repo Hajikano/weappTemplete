@@ -1,0 +1,22 @@
+<Layout>
+    <NavBar>
+        <view style="width:10px;"></view>
+        <text bindtap="DC_Layout_onBack" class="material-icons">navigate_before</text>
+        <view style="width:10px;"></view>
+        {{DC_Layout.title}}
+    </NavBar>
+    <editor id="editor" bindinput="Editor_onInput" style="{{Editor.style._}}"></editor>
+    <view style="{{ToolBar.style.ToolBarBox}}bottom:{{ToolBar.bottomHeight}}px;">
+        <view style="{{ToolBar.style._}}">
+            <view data-id="{{item.id}}" bindtap="ToolBar_Button_onClick" wx:for="{{ToolBar_Button.buttons_up}}" wx:key="id" style="{{ToolBar_Button.style._}}" hover-start-time="0" hover-class="button-hover" hover-stay-time="100">
+                <text class="material-icons" style="font-size:{{item.size}}px;color:{{item.color}};">{{item.icon}}</text>
+            </view>
+        </view>
+        <view style="height:10px;"></view>
+        <view style="{{ToolBar.style._}}">
+            <view data-id="{{item.id}}" bindtap="ToolBar_Button_onClick" wx:for="{{ToolBar_Button.buttons_bottom}}" wx:key="id" style="{{ToolBar_Button.style._}}" hover-start-time="0" hover-class="button-hover" hover-stay-time="100">
+                <text class="material-icons" style="font-size:{{item.size}}px;color:{{item.color}};">{{item.icon}}</text>
+            </view>
+        </view>
+    </view>
+</Layout>

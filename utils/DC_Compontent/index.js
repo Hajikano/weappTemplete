@@ -46,7 +46,15 @@ function DC_Compontent(config = {}) {
 //功能性方法
 
 function getData() {
-    return this._dcPageInstance._pageInstance.data[this._name];
+    let data = null;
+    if (!this._dcPageInstance._isCompontent) {
+        const router = this._dcPageInstance._router;
+        data = router.getHead().data[this._name];
+    } else {
+        // 目前建议不要在组件模式使用此方法 此处仅为兼容性处理
+        data = this._dcPageInstance._pageInstance.data[this._name];
+    }
+    return data;
 }
 DC_Compontent.prototype.getData = getData;
 
@@ -55,7 +63,13 @@ function setData(dataObj, callback = () => {}) {
     for (let i of Object.keys(dataObj)) {
         setDataObj[this.getDataPath(i)] = dataObj[i];
     }
-    this._dcPageInstance._pageInstance.setData(setDataObj, callback);
+    if (!this._dcPageInstance._isCompontent) {
+        const router = this._dcPageInstance._router;
+        router.getHead().setData(setDataObj, callback);
+    } else {
+        // 目前建议不要在组件模式使用此方法 此处仅为兼容性处理
+        this._dcPageInstance._pageInstance.setData(setDataObj, callback);
+    }
 }
 DC_Compontent.prototype.setData = setData;
 
@@ -137,33 +151,25 @@ function HStack(align = "center", justify = "", wrap = "nowarp") {
 }
 DC_Compontent.prototype.HStack = HStack;
 
-function shadow(
-    blur = 5,
-    h = "0px",
-    v = "0px",
-    spread = "1px",
-    color = "$subBorder",
-    inset = false
-) {
+function shadow(blur = 5, h = "0px", v = "0px", spread = "1px", color = "rgba(99, 99, 172, 0.2)", inset = false) {
     let colorSet = ColorSet;
-    this._style["_"]["box-shadow"] = `${h} ${v} ${blur}px ${spread} ${
-        colorSet[color] ? colorSet[color] : color
-    } ${inset ? inset : ""}`;
+    this._style["_"]["box-shadow"] = `${h} ${v} ${blur}px ${spread} ${colorSet[color] ? colorSet[color] : color} ${inset ? inset : ""}`;
     return this;
 }
 DC_Compontent.prototype.shadow = shadow;
 
 function radius(radius) {
-    this._style["_"]["border-radius"] = `${radius}px`;
+    if (typeof radius === "number") {
+        radius = `${radius}px`;
+    }
+    this._style["_"]["border-radius"] = `${radius}`;
     return this;
 }
 DC_Compontent.prototype.radius = radius;
 
 function backgroundColor(color = "$white") {
     let colorSet = ColorSet;
-    this._style["_"]["background-color"] = colorSet[color]
-        ? colorSet[color]
-        : color;
+    this._style["_"]["background-color"] = colorSet[color] ? colorSet[color] : color;
     return this;
 }
 DC_Compontent.prototype.backgroundColor = backgroundColor;
@@ -208,14 +214,12 @@ DC_Compontent.prototype.fontAlign = fontAlign;
 
 function offset(mode = "X", X = null, Y = null, Z = null) {
     if (mode === "") {
-        Y = X;
+        Y === null ? X : Y;
     } else if (mode === "3D") {
         Z = X;
         Y = X;
     }
-    this._style["_"]["transform"] = `translate${mode}(${X ? X : ""}${
-        Y ? "," + Y : ""
-    }${Z ? "," + Z : ""})`;
+    this._style["_"]["transform"] = `translate${mode}(${X ? X : ""}${Y ? "," + Y : ""}${Z ? "," + Z : ""})`;
     return this;
 }
 DC_Compontent.prototype.offset = offset;

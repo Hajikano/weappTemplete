@@ -3,3 +3,7 @@
 .button-hover {
     background-color:#eeeeee;
 }
+
+::-webkit-scrollbar {
+    display: none;
+}

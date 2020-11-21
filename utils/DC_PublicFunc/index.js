@@ -75,15 +75,24 @@ function DC_NavigateTo() {
 }
 
 function DC_Loading() {
-    this.show = (title = "加载中") => {
+    this.show = (title = "加载中",callback=()=>{}) => {
         wx.showLoading({
             title: title,
             mask: true,
         });
+        callback();
     };
-    this.clear = () => {
+    this.clear = (callback=()=>{}) => {
         wx.hideLoading();
+        callback();
     };
+}
+
+function DC_SetNavBarColor(mode = "#000000") {
+    wx.setNavigationBarColor({
+        frontColor: mode,
+        backgroundColor: mode,
+    });
 }
 
 module.exports = {
@@ -91,4 +100,5 @@ module.exports = {
     DC_SystemInfo,
     DC_NavigateTo,
     DC_Loading,
+    DC_SetNavBarColor,
 };

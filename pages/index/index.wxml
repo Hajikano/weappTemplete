@@ -1,7 +1,12 @@
 <Layout>
     <NavBar>
+        <view style="width:10px;"></view>
         <text bindtap="DC_Layout_onTitleClick" class="material-icons">person</text>
+        <view style="width:10px;"></view>
         {{DC_Layout.title}}
     </NavBar>
+    <view style="height:20px;"></view>
+    <button bindtap="DC_Layout_onButtonClick" data-id="editor" style="{{DC_Layout.style.button}}">Editor Page</button>
     <view style="height:10px;"></view>
+    <button bindtap="DC_Layout_onButtonClick" data-id="test" style="{{DC_Layout.style.button}}">Test Page</button>
 </Layout>
